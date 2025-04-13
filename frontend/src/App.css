@@ -1,0 +1,61 @@
+/* App.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+h2 {
+  color: #333;
+  text-align: left;
+  font-size: 24px;
+}
+button {
+  background-color: teal;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px 20px 10px;
+}
+
+button:hover {
+  background-color: darkslategray;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.main-wrapper {
+  display: flex;
+  justify-content: center;      /* Centra los componentes como bloque */
+  align-items: flex-start;      /* Alineación vertical */
+  gap: 40px;                    /* Espacio entre formulario y resumen */
+  flex-wrap: wrap;              /* Permite que se acomoden en pantallas pequeñas */
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+.form-container,
+.resumen-operaciones-container {
+  flex: 1;
+  min-width: auto;
+  max-width: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

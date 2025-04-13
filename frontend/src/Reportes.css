@@ -1,0 +1,89 @@
+
+  
+  .reportes-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  .reporte-tarjeta {
+    background-color: #319c83;
+    padding: 30px;
+    border-radius: 20px;
+    width: 70%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #000000;
+  }
+  
+  .reporte-header {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
+  .reportes-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .section {
+    flex: 1;
+    padding: 20px;
+    background-color: #d9d8d7;
+    border-radius: 10px;
+  }
+  
+  .section h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añadir sombra a las celdas */
+  }
+  
+  th {
+    background-color: #004c4c;
+    color: #fff;
+  }
+  
+  td {
+    background-color: #f5f5dc;
+  }
+  
+
+  
+  .formula-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    gap: 15px;
+  }
+  
+  .formula-text {
+    color: #fff;
+    font-size: 36px;
+  }
+  

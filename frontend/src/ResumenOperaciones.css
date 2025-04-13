@@ -1,0 +1,84 @@
+/* ResumenOperaciones.css */
+
+
+
+button {
+  padding: 10px 18px;
+  font-size: 16px;
+  background-color: #00bfae; /* Verde agua */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #ddd; /* Gris cuando está deshabilitado */
+}
+
+button:hover {
+  background-color: #e60000; /* Rojo en el hover */
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.operaciones-lista {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 500px;
+  max-height: 858px; /* Puedes ajustar la altura según tu preferencia */
+  overflow-y: auto;
+}
+
+/* Quita los bordes individuales de operacion-item */
+.operacion-item {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Un bloque visual por operación, sin parecer una tarjeta completa */
+.bloque-operacion {
+  background-color: #eef7ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #cce5ff;
+}
+
+
+
+.tabla-movimientos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+td {
+  text-align: right;
+}
+
+td[colspan="4"] {
+  text-align: center;
+  font-style: italic;
+}
+
