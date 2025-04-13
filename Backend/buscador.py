@@ -1,4 +1,4 @@
-from Diccionarios import cuentas_contables
+from Backend.Diccionarios import cuentas_contables
 
 def buscar_cuentas(query):
     query = query.lower()
