@@ -35,10 +35,18 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
   const registrarOperacion = async () => {
     const hayDebe = movimientos.some(m => m.tipo === 'D');
     const hayHaber = movimientos.some(m => m.tipo === 'H');
-
+    const totalDebe = movimientos.filter(m => m.tipo === 'D').reduce((acc, m) => acc + m.monto, 0);
+    const totalHaber = movimientos.filter(m => m.tipo === 'H').reduce((acc, m) => acc + m.monto, 0);
+  
     if (!hayDebe || !hayHaber) {
       setError("Debe haber al menos un movimiento en el DEBE y uno en el HABER.");
       return;
+    }
+
+    if (totalDebe !== totalHaber) {
+      setError("La suma de los DEBE y HABER no es igual. No se puede registrar la operación.");
+      setMovimientos([]);  // Limpiar los movimientos
+      return;  // No continuar con el registro
     }
 
     if (!fecha) {
