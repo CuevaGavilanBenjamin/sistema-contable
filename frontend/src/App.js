@@ -66,7 +66,7 @@ const App = () => {
             <button>Ver Reporte de Estado de Resultados</button>
           </Link>
           <button
-            onClick={() => window.location.href = 'http://localhost:3000'}
+            onClick={() => window.location.href = 'https://sistema-contable-frontend.onrender.com'}
            className="boton-regresar"
           >
           Volver al Inicio
