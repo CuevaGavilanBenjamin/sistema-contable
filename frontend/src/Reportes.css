@@ -1,16 +1,17 @@
 
   
-  .reportes-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    height: 100vh;
-  }
-  
+ .reportes-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* para que el contenido comience desde arriba */
+  padding: 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
   .reporte-tarjeta {
     background-color: #319c83;
-    padding: 10px;
+    padding: 30px;
     border-radius: 20px;
     width: 70%;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
