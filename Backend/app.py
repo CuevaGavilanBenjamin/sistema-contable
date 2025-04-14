@@ -5,7 +5,8 @@ from flask_cors import CORS
 from Backend.reporte import generar_estado_resultado, generar_reporte_situacion_financiera, calcular_saldos_por_cuenta  # Importar las funciones necesarias
 
 app = Flask(__name__)
-CORS(app, origins="https://sistema-contable-cqg4.onrender.com")
+CORS(app, origins=["https://sistema-contable-frontend.onrender.com"])
+
 
 
 asientos = []  # Aquí se guardarán los registros
@@ -119,4 +120,4 @@ def estado_resultado():
     return jsonify(resultado)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
