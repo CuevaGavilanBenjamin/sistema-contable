@@ -25,6 +25,8 @@ def registrar_operacion():
             return jsonify({"error": "Faltan campos requeridos (fecha o movimientos)."}), 400
 
         operacion = []
+        total_debe = 0
+        total_haber = 0
         for movimiento in data['movimientos']:
             tipo = movimiento['tipo']
             codigo = movimiento['codigo']
@@ -49,6 +51,11 @@ def registrar_operacion():
             if monto <= 0:
                 return jsonify({"error": "El monto debe ser un valor positivo."}), 400
 
+            if tipo == 'D':
+                total_debe += monto
+            elif tipo == 'H':
+                total_haber += monto
+
             # Agregar movimiento a la operación
             operacion.append({
                 "codigo": cuenta_encontrada[0],
@@ -56,6 +63,10 @@ def registrar_operacion():
                 "tipo": tipo,
                 "monto": monto
             })
+        
+        if round(total_debe, 2) != round(total_haber, 2):
+            return jsonify({"error": "La operación no está balanceada"}), 400
+
 
         # Agregar operación con fecha
         asientos.append({
@@ -90,6 +101,8 @@ def estado_financiero():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+if __name__ == '__main__':
+    app.run(debug=True)
 
 @app.route('/api/operaciones/limpiar-ultima', methods=['DELETE'])
 def limpiar_ultima_operacion():
@@ -118,6 +131,14 @@ def limpiar_todas_operaciones():
 def estado_resultado():
     resultado = generar_estado_resultado(asientos)
     return jsonify(resultado)
+
+@app.route('/api/libro-mayor', methods=['GET'])
+def libro_mayor():
+    try:
+        reporte = generar_libro_mayor(asientos)
+        return jsonify({"libro_mayor": reporte})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

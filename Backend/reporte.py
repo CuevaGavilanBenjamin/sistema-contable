@@ -1,3 +1,8 @@
+from collections import defaultdict
+from datetime import datetime
+
+
+
 def calcular_saldos_por_cuenta(asientos):
     saldos = {}
 
@@ -225,3 +230,55 @@ def generar_estado_resultado(asientos):
         }
     }
 
+def generar_libro_mayor(asientos):
+    mayor = defaultdict(list)
+
+    # Agrupar movimientos por cuenta
+    for asiento in asientos:
+        fecha = asiento['fecha']
+        for movimiento in asiento['movimientos']:
+            codigo = movimiento['codigo']
+            descripcion = movimiento['descripcion']
+            tipo = movimiento['tipo']
+            monto = movimiento['monto']
+
+            mayor[codigo].append({
+                'fecha': fecha,
+                'descripcion': descripcion,
+                'tipo': tipo,
+                'monto': monto
+            })
+
+    # Ordenar movimientos por fecha y calcular saldos
+    libro_mayor = {}
+
+    for codigo, movimientos in mayor.items():
+        movimientos.sort(key=lambda x: datetime.strptime(x['fecha'], "%Y-%m-%d"))
+        saldo = 0
+        detalle = []
+
+        for mov in movimientos:
+            if mov['tipo'] == 'D':
+                saldo += mov['monto']
+                debe = mov['monto']
+                haber = 0
+            else:
+                saldo -= mov['monto']
+                debe = 0
+                haber = mov['monto']
+
+            detalle.append({
+                'fecha': mov['fecha'],
+                'descripcion': mov['descripcion'],
+                'debe': debe,
+                'haber': haber,
+                'saldo': saldo
+            })
+
+        libro_mayor[codigo] = {
+            'descripcion': movimientos[0]['descripcion'] if movimientos else '',
+            'movimientos': detalle,
+            'saldo_final': saldo
+        }
+
+    return libro_mayor

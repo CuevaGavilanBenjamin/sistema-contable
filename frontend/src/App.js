@@ -5,6 +5,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ReporteFinanciero from './ReporteFinanciero';
 import ReporteResultado from './ReporteResultado'; // Se cambió el nombre aquí
+import LibroMayor from './LibroMayor';
 import './App.css';
 
 
@@ -65,6 +66,9 @@ const App = () => {
           <Link to="/reporte-resultados">
             <button>Ver Reporte de Estado de Resultados</button>
           </Link>
+          <Link to="/libro-mayor">
+           <button>Ver Libro Mayor</button>
+           </Link>
           <button
             onClick={() => window.location.href = 'https://sistema-contable-frontend.onrender.com'}
            className="boton-regresar"
@@ -96,6 +100,7 @@ const App = () => {
             path="/reporte-resultados"
             element={<ReporteResultado reporte={reporteResultados} />}
           />
+          <Route path="/libro-mayor" element={<LibroMayor />} />
         </Routes>
       </div>
     </Router>
