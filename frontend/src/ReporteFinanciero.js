@@ -3,7 +3,7 @@ import './Reportes.css';
 
 const obtenerReporteFinanciero = async () => {
     try {
-        const respuesta = await fetch('http://localhost:5000/api/estado-financiero');
+        const respuesta = await fetch('https://sistema-contable-cqg4.onrender.com/api/estado-financiero');
         if (!respuesta.ok) {
             throw new Error('No se pudo obtener el reporte');
         }

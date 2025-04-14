@@ -48,7 +48,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
 
     try {
       const operacion = { fecha, movimientos };
-      await axios.post('http://localhost:5000/api/operaciones', operacion);
+      await axios.post('https://sistema-contable-cqg4.onrender.com/api/operaciones', operacion);
 
       setUltimaOperacion(operacion); // GUARDAMOS PARA MOSTRAR EL RESUMEN
 
@@ -60,7 +60,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
       setFecha('');
       setError('');
 
-      const response = await axios.get('http://localhost:5000/api/operaciones');
+      const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/operaciones');
       onOperacionSubmit(response.data);
     } catch (error) {
       setError("Registrado");
@@ -70,7 +70,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
   // Función para borrar la última operación
   const borrarUltimaOperacion = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/api/operaciones/limpiar-ultima');
+      const response = await axios.delete('https://sistema-contable-cqg4.onrender.com/api/operaciones/limpiar-ultima');
       setUltimaOperacion(null);  // Limpiar el resumen
       onOperacionSubmit(response.data);  // Actualizar la lista de operaciones
     } catch (error) {
@@ -81,7 +81,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
   // Función para borrar todas las operaciones
   const borrarTodasOperaciones = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/api/operaciones/limpiar-todo');
+      const response = await axios.delete('https://sistema-contable-cqg4.onrender.com/api/operaciones/limpiar-todo');
       setUltimaOperacion(null);  // Limpiar el resumen
       setMovimientos([]);  // Limpiar los movimientos actuales
       onOperacionSubmit(response.data);  // Actualizar la lista de operaciones

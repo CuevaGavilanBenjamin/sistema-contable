@@ -11,7 +11,7 @@ const ResumenOperaciones = ({ operacionesIniciales }) => {
     setCargando(true);
     setError('');
     try {
-      const response = await axios.get('http://localhost:5000/api/operaciones');
+      const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/operaciones');
       setOperaciones(response.data);
     } catch (err) {
       setError("Error al actualizar las operaciones.");

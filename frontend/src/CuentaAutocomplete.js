@@ -14,7 +14,7 @@ function CuentaAutocomplete({ onSelectCuenta }) {
 
     const delayDebounceFn = setTimeout(() => {
       axios
-        .get(`http://localhost:5000/buscar-cuenta?q=${query}`)
+        .get(`https://sistema-contable-cqg4.onrender.com/buscar-cuenta?q=${query}`)
         .then(res => setResultados(res.data))
         .catch(err => console.error(err));
     }, 300); // Espera 300ms después de dejar de escribir

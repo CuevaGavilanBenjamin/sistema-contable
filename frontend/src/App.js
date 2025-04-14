@@ -17,7 +17,7 @@ const App = () => {
   // Cargar operaciones
   const cargarOperaciones = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/operaciones');
+      const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/operaciones');
       setOperaciones(response.data);
     } catch (error) {
       console.error('Error al cargar operaciones:', error);
@@ -28,7 +28,7 @@ const App = () => {
   // Cargar el reporte de Estado de Situación Financiera
   const cargarReporteSituacion = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/estado-situacion');
+      const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/estado-situacion');
       setReporteSituacion(response.data.estado_financiero); // Se asume que la estructura es 'estado_financiero'
     } catch (error) {
       console.error('Error al cargar el reporte de situación:', error);
@@ -38,7 +38,7 @@ const App = () => {
   // Cargar el reporte de Estado de Resultados
   const cargarReporteResultados = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/estado-resultados');
+      const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/estado-resultados');
       setReporteResultados(response.data.estado_resultado); // Se asume que la estructura es 'estado_resultado'
     } catch (error) {
       console.error('Error al cargar el reporte de resultados:', error);

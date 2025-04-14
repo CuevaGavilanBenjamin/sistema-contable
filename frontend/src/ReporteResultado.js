@@ -8,7 +8,7 @@ const ReporteResultado = () => {
   useEffect(() => {
     const obtenerReporte = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/estado-resultados');
+        const response = await axios.get('https://sistema-contable-cqg4.onrender.com/api/estado-resultados');
         setReporte(response.data['Estado de Resultados']);
       } catch (error) {
         console.error('Error al cargar el reporte:', error);
