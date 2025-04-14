@@ -178,6 +178,17 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+            <tr>
+              <td style={{ padding: '8px', fontWeight: 'bold' }}>Totales</td>
+              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
+                {movimientos.filter(m => m.tipo === 'D').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
+              </td>
+              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
+                {movimientos.filter(m => m.tipo === 'H').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
+              </td>
+            </tr>
+        </tfoot>
       </table>
 
       {/* RESUMEN FINAL DE LA OPERACIÓN RECIÉN REGISTRADA */}
