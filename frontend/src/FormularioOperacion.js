@@ -11,6 +11,24 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
   const [movimientos, setMovimientos] = useState([]);
   const [error, setError] = useState('');
   const [ultimaOperacion, setUltimaOperacion] = useState(null); // NUEVO
+  const [inventarioFinal, setInventarioFinal] = useState('');
+  const [inventarioInicial, setInventarioInicial] = useState(0); // desde el backend
+
+  // Obtener saldo actual de la cuenta 20 (Inventario Inicial)
+  useEffect(() => {
+    axios.get('https://sistema-contable-cqg4.onrender.com/api/reporte-saldos')
+      .then(response => {
+        const saldos = response.data.reporte_saldos;
+        const saldoInventario = saldos['20']?.saldo || 0;
+        setInventarioInicial(saldoInventario);
+      })
+      .catch(error => {
+        console.error("Error al obtener el saldo de la cuenta 20:", error);
+      });
+  }, [ultimaOperacion]); // se actualiza cuando se registra una nueva operación
+
+
+
 
   const agregarMovimiento = () => {
     if (!tipo || !cuentaSeleccionada || !monto) {
@@ -190,6 +208,26 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
             </tr>
         </tfoot>
       </table>
+
+      {/* Cálculo de Costo de Venta */}
+      <div style={{ marginTop: '30px', borderTop: '1px solid #ccc', paddingTop: '20px' }}>
+        <h3>Cálculo del Costo de Venta</h3>
+        <div style={{ marginBottom: '10px' }}>
+          <label><strong>Inventario Final (físico):</strong></label>
+          <input
+            type="number"
+            value={inventarioFinal}
+            onChange={(e) => setInventarioFinal(e.target.value)}
+            style={{ marginLeft: '10px' }}
+          />
+        </div>
+        <div style={{ backgroundColor: '#f2f2f2', padding: '10px', borderRadius: '5px' }}>
+          <p><strong>Inventario Inicial (Cuenta 20):</strong> {inventarioInicial.toFixed(2)}</p>
+          <p><strong>Inventario Final:</strong> {inventarioFinalFloat.toFixed(2)}</p>
+          <p><strong>Costo de Venta:</strong> {costoVenta.toFixed(2)}</p>
+        </div>
+      </div>
+
 
       {/* RESUMEN FINAL DE LA OPERACIÓN RECIÉN REGISTRADA */}
       {ultimaOperacion && (
