@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './FormularioOperaciones.css';
 import CuentaAutocomplete from './CuentaAutocomplete';
@@ -10,11 +10,10 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
   const [fecha, setFecha] = useState('');
   const [movimientos, setMovimientos] = useState([]);
   const [error, setError] = useState('');
-  const [ultimaOperacion, setUltimaOperacion] = useState(null); // NUEVO
+  const [ultimaOperacion, setUltimaOperacion] = useState(null);
   const [inventarioFinal, setInventarioFinal] = useState('');
-  const [inventarioInicial, setInventarioInicial] = useState(0); // desde el backend
+  const [inventarioInicial, setInventarioInicial] = useState(0);
 
-  // Obtener saldo actual de la cuenta 20 (Inventario Inicial)
   useEffect(() => {
     axios.get('https://sistema-contable-cqg4.onrender.com/api/reporte-saldos')
       .then(response => {
@@ -25,10 +24,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
       .catch(error => {
         console.error("Error al obtener el saldo de la cuenta 20:", error);
       });
-  }, [ultimaOperacion]); // se actualiza cuando se registra una nueva operación
-
-
-
+  }, [ultimaOperacion]);
 
   const agregarMovimiento = () => {
     if (!tipo || !cuentaSeleccionada || !monto) {
@@ -55,7 +51,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
     const hayHaber = movimientos.some(m => m.tipo === 'H');
     const totalDebe = movimientos.filter(m => m.tipo === 'D').reduce((acc, m) => acc + m.monto, 0);
     const totalHaber = movimientos.filter(m => m.tipo === 'H').reduce((acc, m) => acc + m.monto, 0);
-  
+
     if (!hayDebe || !hayHaber) {
       setError("Debe haber al menos un movimiento en el DEBE y uno en el HABER.");
       return;
@@ -63,8 +59,8 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
 
     if (totalDebe !== totalHaber) {
       setError("La suma de los DEBE y HABER no es igual. No se puede registrar la operación.");
-      setMovimientos([]);  // Limpiar los movimientos
-      return;  // No continuar con el registro
+      setMovimientos([]);
+      return;
     }
 
     if (!fecha) {
@@ -76,9 +72,7 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
       const operacion = { fecha, movimientos };
       await axios.post('https://sistema-contable-cqg4.onrender.com/api/operaciones', operacion);
 
-      setUltimaOperacion(operacion); // GUARDAMOS PARA MOSTRAR EL RESUMEN
-
-      // Limpiar campos
+      setUltimaOperacion(operacion);
       setMovimientos([]);
       setTipo('');
       setCuentaSeleccionada(null);
@@ -93,31 +87,32 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
     }
   };
 
-  // Función para borrar la última operación
   const borrarUltimaOperacion = async () => {
     try {
       const response = await axios.delete('https://sistema-contable-cqg4.onrender.com/api/operaciones/limpiar-ultima');
-      setUltimaOperacion(null);  // Limpiar el resumen
-      onOperacionSubmit(response.data);  // Actualizar la lista de operaciones
+      setUltimaOperacion(null);
+      onOperacionSubmit(response.data);
     } catch (error) {
       setError("Registrado.");
     }
   };
 
-  // Función para borrar todas las operaciones
   const borrarTodasOperaciones = async () => {
     try {
       const response = await axios.delete('https://sistema-contable-cqg4.onrender.com/api/operaciones/limpiar-todo');
-      setUltimaOperacion(null);  // Limpiar el resumen
-      setMovimientos([]);  // Limpiar los movimientos actuales
-      onOperacionSubmit(response.data);  // Actualizar la lista de operaciones
+      setUltimaOperacion(null);
+      setMovimientos([]);
+      onOperacionSubmit(response.data);
     } catch (error) {
       setError("Error al borrar todas las operaciones.");
     }
   };
 
+  // 👉 Calcular inventario final y costo de venta
+  const inventarioFinalFloat = parseFloat(inventarioFinal) || 0;
+  const costoVenta = inventarioInicial - inventarioFinalFloat;
+
   return (
-    
     <div className="form-container">
       <h2>Registrar Operación Contable</h2>
       {error && <p className="error-message">{error}</p>}
@@ -197,15 +192,15 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
           ))}
         </tbody>
         <tfoot>
-            <tr>
-              <td style={{ padding: '8px', fontWeight: 'bold' }}>Totales</td>
-              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
-                {movimientos.filter(m => m.tipo === 'D').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
-              </td>
-              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
-                {movimientos.filter(m => m.tipo === 'H').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
-              </td>
-            </tr>
+          <tr>
+            <td style={{ padding: '8px', fontWeight: 'bold' }}>Totales</td>
+            <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
+              {movimientos.filter(m => m.tipo === 'D').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
+            </td>
+            <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
+              {movimientos.filter(m => m.tipo === 'H').reduce((acc, m) => acc + m.monto, 0).toFixed(2)}
+            </td>
+          </tr>
         </tfoot>
       </table>
 
@@ -228,8 +223,6 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
         </div>
       </div>
 
-
-      {/* RESUMEN FINAL DE LA OPERACIÓN RECIÉN REGISTRADA */}
       {ultimaOperacion && (
         <div className="resumen-operacion" style={{ marginTop: '30px', borderTop: '1px solid #ccc', paddingTop: '20px' }}>
           <h3>Resumen de la última operación registrada</h3>
@@ -259,7 +252,6 @@ const FormularioOperaciones = ({ onOperacionSubmit }) => {
         </div>
       )}
 
-      {/* Botones de limpieza */}
       <div style={{ marginTop: '20px' }}>
         <button onClick={borrarUltimaOperacion} className="submit-button" style={{ marginRight: '10px' }}>
           Borrar Última Operación
